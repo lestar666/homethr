@@ -29,8 +29,8 @@ void hist(Mat & src, int cell_Size, int nX, int nY, float * hist) {
 
 				for (int m = n_y; m < cell_Size + n_y; m++) {
 
-					int region = (angle.at<float>(l, m)) / 40;
-					*(hist + region + n) += mag.at<float>(l, m);
+					int region = (angle.at<float>(m, l)) / 40;
+					*(hist + region + n) += mag.at<float>(m, l);
 				}
 			}
 			n += 9;
@@ -42,6 +42,7 @@ int main() {
 
 	Mat srcMat = imread("template.png", 0);
 	Mat result = imread("img.png", 0);
+
 	if (!srcMat.data) {
 		cout << "fail" << endl;
 	}if (!result.data) {
@@ -53,7 +54,7 @@ int main() {
 	int nY = srcMat.rows / cellsize;
 	int bins = 9*nX*nY;
 
-	double minR = 1e30;
+	double minR = 1e20;
 	int minX;
 	int minY;
 	int height = result.rows;
@@ -91,7 +92,7 @@ int main() {
 	}
 	delete[] rhist;
 	Rect rect(minX, minY, nwidth, nheight);
-	rectangle(result, rect, Scalar(255, 255, 255), 2, 8, 0);
+	rectangle(result, rect, Scalar(0,0,255), 2, 8, 0);
 	imshow("result", result);
 	waitKey(0);
 	return 0;
